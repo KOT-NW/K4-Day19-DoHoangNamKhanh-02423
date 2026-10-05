@@ -26,8 +26,12 @@ PROVIDERS = {
                "chat": "gemini-2.5-flash-lite", "embed": "gemini-embedding-001"},
     "anthropic": {"key": "ANTHROPIC_API_KEY", "base_url": None,
                   "chat": "claude-opus-5-5", "embed": None},
+    # OpenCode Zen gateway: OpenAI-compatible /chat/completions, but NO embeddings endpoint.
+    # Use it for chat only; pick a separate provider for EMBEDDING_PROVIDER.
+    "opencode": {"key": "OPENCODE_API_KEY", "base_url": "https://opencode.ai/zen/v1",
+                 "chat": "deepseek-v4.1-flash", "embed": None},
 }
-PROVIDER_ORDER = ["openai", "openrouter", "gemini", "anthropic"]
+PROVIDER_ORDER = ["openai", "openrouter", "gemini", "anthropic", "opencode"]
 
 # USD per 1M tokens (input, output). Check each provider's pricing page before reporting real numbers.
 PRICES_PER_M = {
@@ -37,6 +41,9 @@ PRICES_PER_M = {
     "text-embedding-3-small": (0.02, 0.0),
     "text-embedding-3-large": (0.13, 0.0),
     "gemini-2.5-flash-lite": (0.10, 0.40),
+    # OpenCode Zen models (USD per 1M tokens, see https://opencode.ai/docs/zen/).
+    "deepseek-v4.1-flash": (0.30, 1.20),
+    "glm-5.3-flash": (0.15, 0.50),
     # Gemini embedding pricing intentionally omitted: the current pricing page does not list gemini-embedding-001.
     "claude-opus-5-5": (4.00, 20.00),
     "claude-sonnet-5-5": (2.00, 10.00),
@@ -89,7 +96,8 @@ def _openai_client(provider: str):
     from openai import OpenAI
 
     cfg = PROVIDERS[provider]
-    return OpenAI(api_key=os.environ[cfg["key"]], base_url=cfg["base_url"])
+    base_url = os.getenv(f"{provider.upper()}_BASE_URL") or cfg["base_url"]
+    return OpenAI(api_key=os.environ[cfg["key"]], base_url=base_url)
 
 class MeteredLLM:
     """`chat` and `embed` are drop-in `llm_fn` / `embedding_fn`; `usage` accumulates across calls."""
