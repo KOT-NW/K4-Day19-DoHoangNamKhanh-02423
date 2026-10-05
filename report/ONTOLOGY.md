@@ -29,7 +29,6 @@ flowchart LR
       K -- TRIED_BY --> CT[Court]
       K -- HAS_EVENT --> EV[Event]
       P[Person] -- PARTY_TO {role, sentence, charge} --> K
-      P -- ACTED_IN {role} --> EV
     end
     style C fill:#f9d71c,color:#000
 ```
@@ -66,7 +65,6 @@ flowchart LR
 | `TRIED_BY` | `Case` → `Court` | – | Tòa xét xử |
 | `PARTY_TO` | `Person` → `Case` | `role, sentence, charge` | Vai trò, mức án, tội danh của người |
 | `HAS_EVENT` | `Case` → `Event` | – | Vụ có sự kiện tố tụng |
-| `ACTED_IN` | `Person` → `Event` | `role` | Người tham gia sự kiện |
 
 ## 4. Node cầu nối giữa 2 KB
 

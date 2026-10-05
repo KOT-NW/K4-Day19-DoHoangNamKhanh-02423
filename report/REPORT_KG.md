@@ -113,10 +113,10 @@ $ python bench_kg.py --check
 [OK] KG-1 link_entity
 [OK] Neo4j kết nối được
 [provider] chat = openrouter:openai/gpt-4o-mini | embedding = openrouter:openai/text-embedding-3-small
-[OK] KG-2 build_graph: 431 node / 797 cạnh, đường xuyên 2 KB dài 2 cạnh
-[OK] KG-3 context: 25 dữ kiện, có Điều 251
+[OK] KG-2 build_graph: 427 node / 791 cạnh, đường xuyên 2 KB dài 2 cạnh
+[OK] KG-3 context: 12 dữ kiện, có Điều 251
 [OK] KG-4 GraphRAGAgent.answer
-[OK] Chi phí check: 1 lần gọi LLM, $0.00087. ...
+[OK] Chi phí check: 1 lần gọi LLM, $0.00068. ...
 ```
 
 Ảnh Neo4j: `report/img/kg_count.png`, `report/img/kg_cross_kb.png`, `report/img/kg_my_case.png`.
